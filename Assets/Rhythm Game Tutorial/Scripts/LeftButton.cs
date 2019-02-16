@@ -24,13 +24,13 @@ public class LeftButton : MonoBehaviour
 		if (DPadX < 0)
 		{
 			sr.sprite = pressed;
-			print(DPadX);
+			//print(DPadX);
 		}
 
 		if (DPadX == 0)
 		{
 			sr.sprite = unpressed;
-			print(DPadX);
+			//print(DPadX);
 		}
 	}
 }

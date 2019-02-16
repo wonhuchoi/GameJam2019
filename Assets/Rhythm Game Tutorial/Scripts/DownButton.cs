@@ -24,13 +24,13 @@ public class DownButton : MonoBehaviour
 		if (DPadY > 0)
 		{
 			sr.sprite = pressed;
-			print(DPadY);
+			//print(DPadY);
 		}
 
 		if (DPadY == 0)
 		{
 			sr.sprite = unpressed;
-			print(DPadY);
+			//print(DPadY);
 		}
 	}
 }
