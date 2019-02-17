@@ -10,8 +10,9 @@ public class MissBar : MonoBehaviour {
 	private bool isEnemyHit = false;
 	public UnityEvent Miss = new UnityEvent();
 	public UnityEvent hitEnemy = new UnityEvent();
-	// Use this for initialization
-	void Start () {
+    public Transform Explosion;
+    // Use this for initialization
+    void Start () {
         missedCount = 0;
         Miss.AddListener(MissedNote);
         //Debug.Log(Player.health.ToString());
@@ -19,7 +20,9 @@ public class MissBar : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+
+    {
         if (BeatScoller.numNotes <= 1)
         {
 			if (toBeDamaged == true)
@@ -39,6 +42,9 @@ public class MissBar : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         missedCount++;
+        Vector3 pos = other.transform.position;
+        Quaternion rot = other.transform.rotation;
+        Instantiate(Explosion, pos, rot);
         other.gameObject.SetActive(false);
         Miss.Invoke();
     }

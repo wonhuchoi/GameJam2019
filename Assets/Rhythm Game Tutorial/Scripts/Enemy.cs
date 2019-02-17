@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour {
 
 	public int health;
 	public int damageTaken;
+    public Transform Explosion;
 
 	// Use this for initialization
 	void Start ()
@@ -17,8 +18,11 @@ public class Enemy : MonoBehaviour {
 
 	public void TakeDamage() {
 		if (this.gameObject.activeSelf == true)
-		{
-			this.health -= (int)(damageTaken - (MissBar.missedCount * 0.5 * damageTaken));
+        {
+            Vector3 pos = this.transform.position;
+            Quaternion rot = this.transform.rotation;
+            Instantiate(Explosion, pos, rot);
+            this.health -= (int)(damageTaken - (MissBar.missedCount * 0.5 * damageTaken));
 			if (this.health <= 0)
 			{
 				this.health = 0;
@@ -35,7 +39,10 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void Die()
-	{
-		this.gameObject.SetActive(false);
+    {
+        Vector3 pos = this.transform.position;
+        Quaternion rot = this.transform.rotation;
+        Instantiate(Explosion, pos, rot);
+        this.gameObject.SetActive(false);
 	}
 }
