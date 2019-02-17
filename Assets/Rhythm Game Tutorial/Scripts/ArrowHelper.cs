@@ -8,13 +8,16 @@ public class ArrowHelper : MonoBehaviour
     public Transform UpNote;
     public Transform RightNote;
     public Transform DownNote;
+    public Transform[] Notes;
+    private List<Transform> instances = new List<Transform>();
+    public int xAxisPosition;
     public bool hasStarted;
     public float tempo;
-    public Transform[] Notes;
+    
     public int numberOfArrows;
-    public int xAxisPosition;
+    
 
-    private List<Transform> instances = new List<Transform>();
+    
 
     // Start is called before the first frame update
     void Start()
