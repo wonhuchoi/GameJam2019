@@ -6,15 +6,24 @@ public class BeatScoller : MonoBehaviour {
 
 	public float tempo;
 	public bool hasStarted;
+    public static int numNotes;
 
 	// Use this for initialization
 	void Start () {
 		tempo = tempo / 60f;
-	}
+        numNotes = 0;
+
+        numNotes = GetComponentsInChildren<Transform>().GetLength(0);
+
+        //Debug.Log(numNotes.ToString());
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		if (!hasStarted)
+        numNotes = GetComponentsInChildren<Transform>().GetLength(0);
+
+        //Debug.Log(numNotes.ToString());
+        if (!hasStarted)    
 		{
 			if(Input.anyKeyDown){
 				hasStarted = true;
