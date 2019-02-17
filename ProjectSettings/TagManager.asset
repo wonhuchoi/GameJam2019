@@ -5,7 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Activator
-  - Enemy
+  - DownNote
+  - LeftNote
+  - RightNote
+  - UpNote
   layers:
   - Default
   - TransparentFX
