@@ -5,11 +5,13 @@ using UnityEngine.Events;
 
 public class MissBar : MonoBehaviour {
 
-    private int missedCount;
+    public static int missedCount;
     private bool toBeDamaged = false;
-    UnityEvent Miss = new UnityEvent();
-    // Use this for initialization
-    void Start () {
+	private bool isEnemyHit = false;
+	public UnityEvent Miss = new UnityEvent();
+	public UnityEvent hitEnemy = new UnityEvent();
+	// Use this for initialization
+	void Start () {
         missedCount = 0;
         Miss.AddListener(MissedNote);
         //Debug.Log(Player.health.ToString());
@@ -18,11 +20,19 @@ public class MissBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (BeatScoller.numNotes <= 1 && toBeDamaged == true)
+        if (BeatScoller.numNotes <= 1)
         {
-            DamagePlayer();
-            missedCount = 0;
-            toBeDamaged = false;
+			if (toBeDamaged == true)
+			{
+				DamagePlayer();
+			}
+			else if (!isEnemyHit)
+			{
+				HitEnemy();
+				isEnemyHit = true;
+			}
+			missedCount = 0;
+			toBeDamaged = false;
         }
     }
 
@@ -46,5 +56,11 @@ public class MissBar : MonoBehaviour {
         Player.health--;
         Debug.Log(Player.health.ToString());
     }
+
+	public void HitEnemy()
+	{
+		isEnemyHit = false;
+		hitEnemy.Invoke();
+	}
 
 }

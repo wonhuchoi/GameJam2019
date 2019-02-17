@@ -15,4 +15,10 @@ public class Player : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void Hit()
+	{
+
+	}
+
 }
