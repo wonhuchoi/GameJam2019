@@ -8,7 +8,8 @@ public class Cameracontroller : MonoBehaviour {
 	private int clickCounter = 0;
 	private bool clicked;
 	public float speed = 5.0f;
-
+	private float yRotation = 90f;
+	private bool rotating;
 	// Use this for initialization
 	void Start () {
 	}
@@ -41,22 +42,96 @@ public class Cameracontroller : MonoBehaviour {
 		}
 		if (Input.GetKey(KeyCode.A))
 		{
-			transform.Rotate(new Vector3(0, -speed * Time.deltaTime*10, 0));
+			transform.Rotate(new Vector3(0, -speed * Time.deltaTime*15, 0));
 		}
 		if (Input.GetKey(KeyCode.D))
 		{
-			transform.Rotate(new Vector3(0, speed * Time.deltaTime*10, 0));
+			transform.Rotate(new Vector3(0, speed * Time.deltaTime*15, 0));
 		}
-		/*if (Input.GetMouseButtonDown(0)) // this will rgister a click anywhere on the screen, you need to ray cast on your button
+		if (Input.GetMouseButtonDown(0)) // this will rgister a click anywhere on the screen, you need to ray cast on your button
 		{
 			clickCounter++;
 			clicked = true;
 			clickCounter = Mathf.Clamp(clickCounter, 0, camPositionList.Count - 1); //ensures that number of clicks do not exceed the number of transforms in you list else you might get an Out of Range error
 		}
+		if (Input.GetMouseButtonDown(0)) // this will rgister a click anywhere on the screen, you need to ray cast on your button
+		{
+			clickCounter++;
+			clicked = true;
+			clickCounter = Mathf.Clamp(clickCounter, 0, camPositionList.Count - 1); //ensures that number of clicks do not exceed the number of transforms in you list else you might get an Out of Range error
+		}
+		if (Input.GetKey(KeyCode.E))
+		{
+			Startlookingaround();
+			print("owiejf");
+		}
 		if (clicked)
 		{
-			transform.position = Vector3.Lerp(transform.position, camPositionList[clickCounter].position, Time.deltaTime);
-			if (transform.position == camPositionList[clickCounter].position) clicked = false;
-		}*/
+				transform.position = Vector3.Lerp(transform.position, camPositionList[clickCounter].position, Time.deltaTime);
+				print("moved");
+				if (transform.position == camPositionList[clickCounter].position) clicked = false;
+		}
+	}
+	private IEnumerator Rotate(Vector3 angles, float duration)
+	{
+		rotating = true;
+		Quaternion startRotation = transform.rotation;
+		Quaternion endRotation = Quaternion.Euler(angles);
+		for (float t = 0; t < duration; t += Time.deltaTime)
+		{
+			transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / duration);
+			yield return null;
+		}
+		transform.rotation = endRotation;
+		rotating = false;
+	}
+
+	private IEnumerator Lookaround()
+	{
+		Vector3 leftangle = new Vector3(0, -50, 0);
+		Vector3 rightangle = new Vector3(0, 50, 0);
+		float duration = 1;
+		rotating = true;
+		Quaternion originalAngle = transform.rotation;
+		Quaternion startRotation = transform.rotation;
+		Quaternion endRotation = Quaternion.Euler(leftangle);
+		Quaternion endRotation2 = Quaternion.Euler(rightangle);
+		for (float t = 0; t < duration; t += Time.deltaTime)
+		{
+			transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / duration);
+			yield return null;
+		}
+		startRotation = endRotation;
+		for (float a = 0; a < duration; a += Time.deltaTime)
+		{
+			transform.rotation = Quaternion.Lerp(startRotation, endRotation2, a / duration);
+			yield return null;
+		}
+		startRotation = endRotation2;
+		for (float a = 0; a < duration; a += Time.deltaTime)
+		{
+			transform.rotation = Quaternion.Lerp(startRotation, originalAngle, a / duration);
+			yield return null;
+		}
+		transform.rotation = originalAngle;
+		rotating = false;
+	}
+
+	public void StartRotation(Vector3 angle)
+	{
+		if (!rotating)
+			StartCoroutine(Rotate(angle, 1));
+	}
+	public void Startlookingaround()
+	{
+		if (!rotating)
+			StartCoroutine(Lookaround());
 	}
 }
+
+
+
+
+
+
+
