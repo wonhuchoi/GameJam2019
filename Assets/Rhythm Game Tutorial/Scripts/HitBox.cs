@@ -7,9 +7,9 @@ public class HitBox : MonoBehaviour {
     private SpriteRenderer sr;
     public Sprite unpressed;
     public Sprite pressed;
-    public float DPad;
-    public int arrowType; // 0 - up; 1- right; 2 - down; 3 - left
-    public GameObject arrowObject;
+    private float DPad;
+    private int arrowType; // 0 - up; 1- right; 2 - down; 3 - left
+    private GameObject arrowObject;
     private bool leftArrow;
     private bool rightArrow;
     private bool upArrow;
@@ -38,6 +38,8 @@ public class HitBox : MonoBehaviour {
                     //print("ALEX TEST UP IS " + upArrow.ToString());
                     if (Input.GetAxisRaw("Vertical") < 0 && !upArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Up!");
                         upArrow = true;
@@ -45,8 +47,10 @@ public class HitBox : MonoBehaviour {
                     break;
                 case 1: // right
                     DPad = Input.GetAxisRaw("Horizontal");
-                    if (DPad > 0 && !rightArrow)
+                    if (Input.GetAxisRaw("Horizontal") > 0 && !rightArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Right!");
                         rightArrow = true;
@@ -54,8 +58,10 @@ public class HitBox : MonoBehaviour {
                     break;
                 case 2: // down
                     DPad = Input.GetAxisRaw("Vertical");
-                    if (DPad > 0 && !downArrow)
+                    if (Input.GetAxisRaw("Vertical") > 0 && !downArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Down!");
                         downArrow = true;
@@ -63,8 +69,10 @@ public class HitBox : MonoBehaviour {
                     break;
                 case 3: // left
                     DPad = Input.GetAxisRaw("Horizontal");
-                    if (DPad < 0 && !leftArrow)
+                    if (Input.GetAxisRaw("Horizontal") < 0 && !leftArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Left!");
                         leftArrow = true;
@@ -96,44 +104,13 @@ public class HitBox : MonoBehaviour {
             default:
                 break;
         }
-    }
-
-    
-    private void OnTriggerExit2D(Collider2D arrow)
-    {
-        switch (arrow.tag)
-        {
-            case "LeftNote":
-                print("LeftNote");
-                arrow.gameObject.SetActive(false);
-                break;
-            case "RightNote":
-                print("RightNote");
-                arrow.gameObject.SetActive(false);
-                break;
-            case "UpNote":
-                print("UpNote");
-                print("OUTTAHERE");
-                arrow.gameObject.SetActive(false);
-                break;
-            case "DownNote":
-                print("DownNote");
-                arrow.gameObject.SetActive(false);
-                break;
-            default:
-                print("default");
-                break;
-        }
-        arrowObject = null;
-    }
-    
+    }  
 
     void updateArrowBool()
     {
         if (rightArrow)
-        {
             rightArrow = Input.GetAxisRaw("Horizontal") > 0;
-        }
+
 
         if (leftArrow)
             leftArrow = Input.GetAxisRaw("Horizontal") < 0;
