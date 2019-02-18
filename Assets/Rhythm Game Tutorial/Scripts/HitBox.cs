@@ -38,6 +38,8 @@ public class HitBox : MonoBehaviour {
                     //print("ALEX TEST UP IS " + upArrow.ToString());
                     if (Input.GetAxisRaw("Vertical") < 0 && !upArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Up!");
                         upArrow = true;
@@ -47,6 +49,8 @@ public class HitBox : MonoBehaviour {
                     DPad = Input.GetAxisRaw("Horizontal");
                     if (Input.GetAxisRaw("Horizontal") > 0 && !rightArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Right!");
                         rightArrow = true;
@@ -56,6 +60,8 @@ public class HitBox : MonoBehaviour {
                     DPad = Input.GetAxisRaw("Vertical");
                     if (Input.GetAxisRaw("Vertical") > 0 && !downArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Down!");
                         downArrow = true;
@@ -65,6 +71,8 @@ public class HitBox : MonoBehaviour {
                     DPad = Input.GetAxisRaw("Horizontal");
                     if (Input.GetAxisRaw("Horizontal") < 0 && !leftArrow)
                     {
+                        HitFade.initalize = true;
+                        HitFade.resetImage = true;
                         arrowObject.SetActive(false);
                         print("Hit Left!");
                         leftArrow = true;

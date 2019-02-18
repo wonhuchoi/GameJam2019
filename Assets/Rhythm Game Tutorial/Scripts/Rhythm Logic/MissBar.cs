@@ -44,6 +44,8 @@ public class MissBar : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        MissFade.initalize = true;
+        MissFade.resetImage = true;
         missedCount++;
         Vector3 pos = other.transform.position;
         Quaternion rot = other.transform.rotation;
