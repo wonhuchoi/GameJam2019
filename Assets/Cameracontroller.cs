@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cameracontroller : MonoBehaviour {
 	public List<Transform> camPositionList = new List<Transform>();  //asign all transforms in inspector, including the initial position
-	public List<Transform> camangleList = new List<Transform>();  //asign all transforms in inspector, including the initial position
+	public List<Transform> battlePositionList = new List<Transform>();  //asign all transforms in inspector, including the initial position
 	private int clickCounter = 0;
 	private bool clicked;
 	public float speed = 5.0f;
@@ -54,24 +54,59 @@ public class Cameracontroller : MonoBehaviour {
 			clicked = true;
 			clickCounter = Mathf.Clamp(clickCounter, 0, camPositionList.Count - 1); //ensures that number of clicks do not exceed the number of transforms in you list else you might get an Out of Range error
 		}
-		if (Input.GetMouseButtonDown(0)) // this will rgister a click anywhere on the screen, you need to ray cast on your button
-		{
-			clickCounter++;
-			clicked = true;
-			clickCounter = Mathf.Clamp(clickCounter, 0, camPositionList.Count - 1); //ensures that number of clicks do not exceed the number of transforms in you list else you might get an Out of Range error
-		}
 		if (Input.GetKey(KeyCode.E))
 		{
-			Startlookingaround();
-			print("owiejf");
+			print(rotating);
+			if (!rotating)
+				{
+					StartCoroutine(Lookaround());
+				}
 		}
-		if (clicked)
-		{
-				transform.position = Vector3.Lerp(transform.position, camPositionList[clickCounter].position, Time.deltaTime);
+		
+		if(clicked)
+		{	
+			if(clickCounter == 1) { 
+				transform.position = Vector3.Lerp(transform.position, camPositionList[1].position, Time.deltaTime);
+				print("moved");
+				StartRotation(new Vector3(0, 0, 0));
+				if (transform.position == camPositionList[clickCounter].position) clicked = false;
+			}
+			if (clickCounter == 2)
+			{
+				transform.position = Vector3.Lerp(transform.position, camPositionList[2].position, Time.deltaTime);
 				print("moved");
 				if (transform.position == camPositionList[clickCounter].position) clicked = false;
+			}
+			if(clickCounter == 3)
+			{
+				transform.position = Vector3.Lerp(transform.position, camPositionList[3].position, Time.deltaTime);
+				print("moved");
+				if (transform.position == camPositionList[clickCounter].position) clicked = false;
+			}
+			if (clickCounter == 4)
+			{
+				transform.position = Vector3.Lerp(transform.position, camPositionList[4].position, Time.deltaTime);
+				print("moved");
+				if (transform.position == camPositionList[clickCounter].position) clicked = false;
+			}
+			if(clickCounter ==5)
+			{
+				transform.position = Vector3.Lerp(transform.position, camPositionList[5].position, Time.deltaTime);
+				print("moved");
+				if (transform.position == battlePositionList[0].position) clicked = false;
+			}
+			if (clickCounter == 6)
+			{
+				GameObject.Find("Space_guy (1)").GetComponent<SpriteRenderer>().enabled = false;
+				GameObject.Find("Space_guy (1)").GetComponent<SpriteRenderer>().enabled = true;
+				GameObject.Find("Space_guy (1)").transform.position = Vector3.Lerp(GameObject.Find("Space_guy (1)").transform.position, new Vector3(-24.51678f, 1, -33.24f), 0.2f);
+				transform.position = Vector3.Lerp(transform.position, battlePositionList[0].position, Time.deltaTime);
+				print("moved");
+				if (transform.position == battlePositionList[0].position) clicked = false;
+			}
 		}
 	}
+
 	private IEnumerator Rotate(Vector3 angles, float duration)
 	{
 		rotating = true;
@@ -88,34 +123,35 @@ public class Cameracontroller : MonoBehaviour {
 
 	private IEnumerator Lookaround()
 	{
-		Vector3 leftangle = new Vector3(0, -50, 0);
-		Vector3 rightangle = new Vector3(0, 50, 0);
-		float duration = 1;
+		
 		rotating = true;
-		Quaternion originalAngle = transform.rotation;
-		Quaternion startRotation = transform.rotation;
-		Quaternion endRotation = Quaternion.Euler(leftangle);
-		Quaternion endRotation2 = Quaternion.Euler(rightangle);
-		for (float t = 0; t < duration; t += Time.deltaTime)
-		{
-			transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / duration);
-			yield return null;
+		float rSpeed = 20;
+		float startAngle = transform.eulerAngles.y;
+		print(startAngle);
+		
+		while(transform.eulerAngles.y <= startAngle + 30){
+			transform.Rotate(0, Time.deltaTime * rSpeed, 0);
+			yield return new WaitForEndOfFrame();
 		}
-		startRotation = endRotation;
-		for (float a = 0; a < duration; a += Time.deltaTime)
+		yield return new WaitUntil(() => transform.eulerAngles.y >= startAngle + 30);
+		rSpeed = -20;
+		print(transform.eulerAngles.y);
+		while (transform.eulerAngles.y >= startAngle -30)
 		{
-			transform.rotation = Quaternion.Lerp(startRotation, endRotation2, a / duration);
-			yield return null;
+			transform.Rotate(0, Time.deltaTime * rSpeed, 0);
+			yield return new WaitForEndOfFrame();
 		}
-		startRotation = endRotation2;
-		for (float a = 0; a < duration; a += Time.deltaTime)
+		yield return new WaitUntil(() => transform.eulerAngles.y <= startAngle - 30);
+		rSpeed = +20;
+		while (transform.eulerAngles.y <= startAngle)
 		{
-			transform.rotation = Quaternion.Lerp(startRotation, originalAngle, a / duration);
-			yield return null;
+			transform.Rotate(0, Time.deltaTime * rSpeed, 0);
+			yield return new WaitForEndOfFrame();
 		}
-		transform.rotation = originalAngle;
+		yield return new WaitUntil(() => transform.eulerAngles.y >= startAngle);
 		rotating = false;
 	}
+
 
 	public void StartRotation(Vector3 angle)
 	{
