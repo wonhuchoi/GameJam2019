@@ -9,6 +9,7 @@ TagManager:
   - LeftNote
   - RightNote
   - UpNote
+  - Position
   layers:
   - Default
   - TransparentFX

@@ -36,7 +36,7 @@ public class HitBox : MonoBehaviour {
                 case 0: // up
                     //DPad = Input.GetAxisRaw("Vertical");
                     //print("ALEX TEST UP IS " + upArrow.ToString());
-                    if (Input.GetAxisRaw("Vertical") < 0 && !upArrow)
+                    if (Input.GetKeyDown(KeyCode.Keypad8) || (Input.GetAxisRaw("Vertical") < 0 && !upArrow))
                     {
                         HitFade.initalize = true;
                         HitFade.resetImage = true;
@@ -47,7 +47,7 @@ public class HitBox : MonoBehaviour {
                     break;
                 case 1: // right
                     DPad = Input.GetAxisRaw("Horizontal");
-                    if (Input.GetAxisRaw("Horizontal") > 0 && !rightArrow)
+                    if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetAxisRaw("Horizontal") > 0 && !rightArrow)
                     {
                         HitFade.initalize = true;
                         HitFade.resetImage = true;
@@ -58,7 +58,7 @@ public class HitBox : MonoBehaviour {
                     break;
                 case 2: // down
                     DPad = Input.GetAxisRaw("Vertical");
-                    if (Input.GetAxisRaw("Vertical") > 0 && !downArrow)
+                    if (Input.GetKeyDown(KeyCode.Keypad5) || Input.GetAxisRaw("Vertical") > 0 && !downArrow)
                     {
                         HitFade.initalize = true;
                         HitFade.resetImage = true;
@@ -69,7 +69,7 @@ public class HitBox : MonoBehaviour {
                     break;
                 case 3: // left
                     DPad = Input.GetAxisRaw("Horizontal");
-                    if (Input.GetAxisRaw("Horizontal") < 0 && !leftArrow)
+                    if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetAxisRaw("Horizontal") < 0 && !leftArrow)
                     {
                         HitFade.initalize = true;
                         HitFade.resetImage = true;
@@ -94,19 +94,28 @@ public class HitBox : MonoBehaviour {
                 break;
             case "RightNote":
                 arrowType = 1;
-                break;
+				break;
             case "UpNote":
                 arrowType = 0;
-                break;
+				break;
             case "DownNote":
                 arrowType = 2;
-                break;
+				break;
             default:
                 break;
         }
-    }  
 
-    void updateArrowBool()
+    }
+
+	private void OnTriggerExit2D(Collider2D arrow)
+	{
+		if (arrow.gameObject.tag.Contains("Note"))
+		{
+			arrowType = 4;
+		}
+	}
+
+	void updateArrowBool()
     {
         if (rightArrow)
             rightArrow = Input.GetAxisRaw("Horizontal") > 0;

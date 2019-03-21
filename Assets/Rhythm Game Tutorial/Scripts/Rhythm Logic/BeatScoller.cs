@@ -49,8 +49,7 @@ public class BeatScoller : MonoBehaviour {
             {
                 foreach (RectTransform arrow in instances)
                 {
-                    Vector3 temp = new Vector3(arrow.position.x - tempo * Time.deltaTime, arrow.position.y, 0f);
-                    arrow.position -= new Vector3(tempo * Time.deltaTime, 0f, 0f);
+                    arrow.position -= new Vector3(tempo * Time.deltaTime * 1.5f, 0f, 0f);
                 }
 
             }
@@ -96,7 +95,7 @@ public class BeatScoller : MonoBehaviour {
             instance.transform.SetParent(transform, false);
             instances.Add(instance);
 
-            instance.localPosition = new Vector3(transform.localPosition.x + 100f * xAxisPosition, 0f, 0f);
+            instance.localPosition = new Vector3(transform.localPosition.x + 200 + 150f * xAxisPosition, 0f, 0f);
             xAxisPosition++;
 
         }

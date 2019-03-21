@@ -20,7 +20,6 @@ public class DoorScript : MonoBehaviour {
 			{
 				if (anim)
 				{
-					print(Vector3.Distance(player.transform.position, transform.position));
 					anim.SetBool("character_nearby", true);
 				}
 			}

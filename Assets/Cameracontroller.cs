@@ -67,32 +67,31 @@ public class Cameracontroller : MonoBehaviour {
 		{	
 			if(clickCounter == 1) { 
 				transform.position = Vector3.Lerp(transform.position, camPositionList[1].position, Time.deltaTime);
-				print("moved");
+	
 				StartRotation(new Vector3(0, 0, 0));
 				if (transform.position == camPositionList[clickCounter].position) clicked = false;
 			}
 			if (clickCounter == 2)
 			{
 				transform.position = Vector3.Lerp(transform.position, camPositionList[2].position, Time.deltaTime);
-				print("moved");
+
 				if (transform.position == camPositionList[clickCounter].position) clicked = false;
 			}
 			if(clickCounter == 3)
 			{
 				transform.position = Vector3.Lerp(transform.position, camPositionList[3].position, Time.deltaTime);
-				print("moved");
+				print("angle: " + transform.eulerAngles.y);
 				if (transform.position == camPositionList[clickCounter].position) clicked = false;
 			}
 			if (clickCounter == 4)
 			{
 				transform.position = Vector3.Lerp(transform.position, camPositionList[4].position, Time.deltaTime);
-				print("moved");
 				if (transform.position == camPositionList[clickCounter].position) clicked = false;
 			}
 			if(clickCounter ==5)
 			{
 				transform.position = Vector3.Lerp(transform.position, camPositionList[5].position, Time.deltaTime);
-				print("moved");
+
 				if (transform.position == battlePositionList[0].position) clicked = false;
 			}
 			if (clickCounter == 6)
@@ -101,8 +100,21 @@ public class Cameracontroller : MonoBehaviour {
 				GameObject.Find("Space_guy (1)").GetComponent<SpriteRenderer>().enabled = true;
 				GameObject.Find("Space_guy (1)").transform.position = Vector3.Lerp(GameObject.Find("Space_guy (1)").transform.position, new Vector3(-24.51678f, 1, -33.24f), 0.2f);
 				transform.position = Vector3.Lerp(transform.position, battlePositionList[0].position, Time.deltaTime);
-				print("moved");
+				print(clickCounter);
 				if (transform.position == battlePositionList[0].position) clicked = false;
+			}
+			if (clickCounter == 7)
+			{
+				transform.position = Vector3.Lerp(transform.position, camPositionList[7].position, Time.deltaTime);
+				print(clickCounter);
+				if (transform.position == camPositionList[clickCounter].position) clicked = false;
+			}
+			if (clickCounter == 8)
+			{
+				if (!rotating)
+				{
+					StartCoroutine(Lookaround());
+				}
 			}
 		}
 	}
@@ -115,7 +127,7 @@ public class Cameracontroller : MonoBehaviour {
 		for (float t = 0; t < duration; t += Time.deltaTime)
 		{
 			transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / duration);
-			yield return null;
+			yield return new WaitForEndOfFrame();
 		}
 		transform.rotation = endRotation;
 		rotating = false;
@@ -127,29 +139,44 @@ public class Cameracontroller : MonoBehaviour {
 		rotating = true;
 		float rSpeed = 20;
 		float startAngle = transform.eulerAngles.y;
-		print(startAngle);
+		print("startAngle: " + startAngle);
+
+		while ((transform.eulerAngles.y % 360) < ((startAngle + 30) % 360) || ((startAngle + 30) % 360) - transform.eulerAngles.y <= -180)
+		{
+			print("rerotating angle: " + (startAngle + 30));
+			transform.Rotate(0, Time.deltaTime * rSpeed * 3, 0);
+
+			yield return new WaitForEndOfFrame();
+		}
+
+		print("end angle: " + transform.eulerAngles.y);
+		//yield return new WaitUntil(() => transform.eulerAngles.y >= startAngle + 30);
 		
-		while(transform.eulerAngles.y <= startAngle + 30){
-			transform.Rotate(0, Time.deltaTime * rSpeed, 0);
-			yield return new WaitForEndOfFrame();
-		}
-		yield return new WaitUntil(() => transform.eulerAngles.y >= startAngle + 30);
 		rSpeed = -20;
-		print(transform.eulerAngles.y);
-		while (transform.eulerAngles.y >= startAngle -30)
+		float finalAngle = startAngle - 30 <= 0 ? startAngle + 330 : startAngle - 30;
+
+		while (transform.eulerAngles.y >= finalAngle || finalAngle - transform.eulerAngles.y >= 180)
 		{
-			transform.Rotate(0, Time.deltaTime * rSpeed, 0);
+			transform.Rotate(0, Time.deltaTime * rSpeed*3, 0);
+			print(transform.eulerAngles.y);
+			print(finalAngle);
+			
 			yield return new WaitForEndOfFrame();
 		}
-		yield return new WaitUntil(() => transform.eulerAngles.y <= startAngle - 30);
-		rSpeed = +20;
-		while (transform.eulerAngles.y <= startAngle)
+		print("end angle2: " + transform.eulerAngles.y);
+		//yield return new WaitUntil(() => transform.eulerAngles.y -360 <= startAngle);
+		
+		rSpeed = 20;
+		startAngle = startAngle <= 0 ? startAngle + 360 : startAngle;
+		while ((transform.eulerAngles.y % 360) < (startAngle %360) || startAngle % 360  - transform.eulerAngles.y <= -180)
 		{
-			transform.Rotate(0, Time.deltaTime * rSpeed, 0);
+			print("rerotating angle: " + startAngle);
+			transform.Rotate(0, Time.deltaTime * rSpeed*3, 0);
+
 			yield return new WaitForEndOfFrame();
 		}
-		yield return new WaitUntil(() => transform.eulerAngles.y >= startAngle);
 		rotating = false;
+		//yield return new WaitUntil(() => transform.eulerAngles.y -360 >= startAngle);
 	}
 
 
