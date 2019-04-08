@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour {
         {
             Vector3 pos = this.transform.position;
             Quaternion rot = this.transform.rotation;
-            Instantiate(Explosion, pos, rot);
+            //Instantiate(Explosion, pos, rot);
             this.health -= (int)(damageTaken - (MissBar.missedCount * 0.5 * damageTaken));
 			if (this.health <= 0)
 			{

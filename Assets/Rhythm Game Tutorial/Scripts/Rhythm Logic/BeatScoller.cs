@@ -73,7 +73,7 @@ public class BeatScoller : MonoBehaviour {
             {
                 instances.Clear();
                 numNotes = 0;
-                print("CLEAR");
+                //print("CLEAR");
             }
         }
 	}

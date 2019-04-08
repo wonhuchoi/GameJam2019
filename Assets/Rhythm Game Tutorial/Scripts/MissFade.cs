@@ -19,7 +19,7 @@ public class MissFade : MonoBehaviour {
 
         if (this.image == null)
         {
-            Debug.LogError("Error: No image on " + this.name);
+            //Debug.LogError("Error: No image on " + this.name);
         }
 
         this.targetAlpha = 0.0f;
@@ -47,7 +47,7 @@ public class MissFade : MonoBehaviour {
             }
             else
             {
-                print("RESET MISS IMAGE");
+                //print("RESET MISS IMAGE");
                 this.image.color = originalColor;
                 resetImage = false;
             }

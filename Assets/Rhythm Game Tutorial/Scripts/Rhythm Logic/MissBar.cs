@@ -27,14 +27,17 @@ public class MissBar : MonoBehaviour
     {
         if (BeatScoller.numNotes <= 0)
         {
-            if (toBeDamaged == true)
-            {
-                print("DAMAGE TIME");
-                DamagePlayer();
-            }
-            else if (!isEnemyHit)
-            {
-                HitEnemy();
+			print("cleared");
+            //if (toBeDamaged == true)
+            //{
+                //print("DAMAGE TIME");
+                //DamagePlayer();
+			//}
+			//else 
+			if (!isEnemyHit)
+			{
+				print("hit enemy");
+				HitEnemy();
                 isEnemyHit = true;
             }
             missedCount = 0;
@@ -55,7 +58,7 @@ public class MissBar : MonoBehaviour
 
     private void MissedNote()
     {
-        print("MISSED NOTE CALLED");
+        //print("MISSED NOTE CALLED");
         if (missedCount >= 2)
         {
             toBeDamaged = true;
@@ -72,6 +75,7 @@ public class MissBar : MonoBehaviour
     public void HitEnemy()
     {
         isEnemyHit = false;
+		print("hitting enemy");
         hitEnemy.Invoke();
     }
 
